@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>XChange Mentorship | Marketing 1-on-1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#15201c;
+    --paper:#f6f3ec;
+    --card:#fffdf8;
+    --line:#d9d3c4;
+    --green:#1f6f54;       /* B2B / brand-mentor green */
+    --coral:#d8552f;       /* B2C / performance coral */
+    --muted:#6f6a5d;
+    --star:#c79a23;
+    /* active accent — overridden per page */
+    --accent:var(--green);
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Noto Sans TC",system-ui,sans-serif;
+    line-height:1.6;
+    padding:32px 20px 80px;
+  }
+  .sheet{max-width:860px;margin:0 auto;}
+
+  /* ---------- Tabs ---------- */
+  .tabs{
+    display:flex;
+    gap:0;
+    margin-bottom:22px;
+    border:2px solid var(--ink);
+    background:var(--card);
+  }
+  .tab{
+    flex:1;
+    appearance:none;
+    border:none;
+    background:transparent;
+    cursor:pointer;
+    padding:14px 16px;
+    font-family:"Space Grotesk","Noto Sans TC",sans-serif;
+    font-size:13.5px;
+    font-weight:600;
+    letter-spacing:.02em;
+    color:var(--muted);
+    text-align:center;
+    line-height:1.35;
+    transition:background .15s,color .15s;
+  }
+  .tab:first-child{border-right:2px solid var(--ink);}
+  .tab .tab-sub{
+    display:block;
+    font-size:10px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    margin-bottom:3px;
+    opacity:.7;
+  }
+  .tab[aria-selected="true"]{color:var(--card);}
+  .tab[data-page="lead"][aria-selected="true"]{background:var(--green);}
+  .tab[data-page="brand"][aria-selected="true"]{background:var(--coral);}
+  .tab:focus-visible{outline:3px solid var(--star);outline-offset:-3px;}
+
+  /* ---------- Page ---------- */
+  .page{display:none;}
+  .page.active{display:block;}
+  .page[data-page="brand"]{--accent:var(--coral);}
+
+  /* ---------- Masthead ---------- */
+  .masthead{
+    border:2px solid var(--ink);
+    background:var(--card);
+    padding:26px 30px 22px;
+  }
+  .eyebrow{
+    font-family:"Space Grotesk",sans-serif;
+    font-size:11px;letter-spacing:.28em;text-transform:uppercase;
+    color:var(--accent);font-weight:600;margin-bottom:10px;
+  }
+  h1{
+    margin:0;
+    font-family:"Space Grotesk","Noto Sans TC",sans-serif;
+    font-weight:700;
+    font-size:clamp(23px,3.6vw,34px);
+    line-height:1.14;letter-spacing:-.01em;
+  }
+  h1 .vs{color:var(--accent);font-style:italic;}
+  .page[data-page="lead"] h1 .vs{color:var(--coral);}
+  .page[data-page="brand"] h1 .vs{color:var(--green);}
+  .people{
+    display:flex;flex-wrap:wrap;gap:10px 28px;
+    margin-top:18px;padding-top:16px;border-top:1px solid var(--line);
+    font-family:"Space Grotesk",sans-serif;font-size:14px;
+  }
+  .people span{display:inline-flex;align-items:baseline;gap:8px;}
+  .people .role{
+    font-size:10px;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--muted);font-weight:500;
+  }
+  .people .name{font-weight:600;font-size:16px;}
+  .people .mentor .name{color:var(--green);}
+  .people .mentee .name{color:var(--coral);}
+
+  /* ---------- Legend ---------- */
+  .legend{
+    display:flex;align-items:center;gap:8px;
+    margin:18px 2px 4px;font-size:12.5px;color:var(--muted);
+  }
+  .legend .star{color:var(--star);font-size:15px;line-height:1;}
+
+  /* ---------- Sections ---------- */
+  .section{margin-top:30px;}
+  .section-head{display:flex;align-items:center;gap:14px;margin-bottom:4px;}
+  .section-num{
+    font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:13px;
+    color:var(--card);background:var(--accent);
+    width:30px;height:30px;border-radius:50%;
+    display:inline-flex;align-items:center;justify-content:center;flex:none;
+  }
+  .section-title{font-weight:900;font-size:19px;letter-spacing:.01em;}
+  .section-sub{
+    font-family:"Space Grotesk",sans-serif;font-size:11px;
+    letter-spacing:.16em;text-transform:uppercase;color:var(--muted);
+    margin:2px 0 0 44px;
+  }
+
+  /* ---------- Question cards ---------- */
+  .q{
+    background:var(--card);border:1px solid var(--line);
+    border-left:4px solid var(--line);border-radius:3px;
+    padding:15px 18px;margin-top:12px;
+  }
+  .q.must{border-left-color:var(--star);background:#fffefa;}
+  .q-top{display:flex;gap:12px;align-items:flex-start;}
+  .q-no{
+    font-family:"Space Grotesk",sans-serif;font-weight:700;font-size:15px;
+    color:var(--accent);flex:none;min-width:24px;padding-top:1px;
+  }
+  .q.must .q-no{color:var(--star);}
+  .q-text{font-size:15px;flex:1;}
+  .q-text .en{
+    font-family:"Space Grotesk",sans-serif;font-style:normal;
+    color:var(--accent);font-weight:500;
+  }
+  .q-star{color:var(--star);font-size:15px;flex:none;padding-top:2px;}
+
+  /* ---------- Final question ---------- */
+  .final{
+    margin-top:30px;
+    background:var(--accent);
+    color:var(--card);
+    border-radius:3px;
+    padding:22px 24px;
+  }
+  .final-label{
+    font-family:"Space Grotesk",sans-serif;font-size:11px;
+    letter-spacing:.22em;text-transform:uppercase;
+    opacity:.85;margin-bottom:8px;
+  }
+  .final-text{font-size:16px;font-weight:500;line-height:1.55;}
+
+  /* ---------- Footer ---------- */
+  .footer{
+    margin-top:40px;padding-top:16px;border-top:2px solid var(--ink);
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
+    font-family:"Space Grotesk",sans-serif;font-size:11px;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--muted);
+  }
+
+  @media print{
+    body{padding:0;background:#fff;}
+    .tabs{display:none;}
+    .page{display:block!important;}
+    .page:first-of-type{page-break-after:always;}
+    .q,.masthead,.section,.final{break-inside:avoid;}
+  }
+  @media (max-width:560px){
+    body{padding:18px 12px 60px;}
+    .masthead{padding:20px;}
+    .section-sub{margin-left:0;}
+    .tab{font-size:12px;padding:12px 8px;}
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="tabs" role="tablist">
+    <button class="tab" data-page="lead" role="tab" aria-selected="true">
+      <span class="tab-sub">Page 01</span>
+      Lead Gen: B2B vs. B2C
+    </button>
+    <button class="tab" data-page="brand" role="tab" aria-selected="false">
+      <span class="tab-sub">Page 02</span>
+      Brand vs. Performance Marketing
+    </button>
+  </div>
+
+  <!-- ===================== PAGE 1: LEAD GEN ===================== -->
+  <div class="page active" data-page="lead" role="tabpanel">
+
+    <header class="masthead">
+      <div class="eyebrow">XChange Mentorship Program</div>
+      <h1>Lead Generation<br>B2B <span class="vs">vs.</span> B2C</h1>
+      <div class="people">
+        <span class="mentor"><span class="role">Mentor</span><span class="name">Helen</span></span>
+        <span class="mentee"><span class="role">Mentee</span><span class="name">Anne</span></span>
+      </div>
+    </header>
+
+    <div class="legend"><span class="star">★</span> 標星為核心必問題</div>
+
+    <section class="section">
+      <div class="section-head"><span class="section-num">1</span><span class="section-title">B2B Lead Gen 的漏斗</span></div>
+      <div class="section-sub">The Funnel</div>
+
+      <div class="q must"><div class="q-top">
+        <span class="q-no">1</span>
+        <span class="q-text">你在 Amazon 做招商,一個賣家 lead 從第一次接觸到真的上架開賣,中間經過哪些階段?這個漏斗跟一般行銷漏斗(曝光、考慮、轉換)長得一樣嗎,還是有 B2B 特有的關卡?</span>
+        <span class="q-star">★</span>
+      </div></div>
+
+      <div class="q"><div class="q-top">
+        <span class="q-no">2</span>
+        <span class="q-text">B2B 會對名單做區分 / 分級嗎?是依照什麼標準分的?為什麼要這麼做——對後續的跟進有什麼差別?</span>
+      </div></div>
+
+      <div class="q"><div class="q-top">
+        <span class="q-no">3</span>
+        <span class="q-text">B2B 通常是多人決策(採購、主管、老闆),你 lead 進來時常常只接觸到其中一個窗口。你怎麼處理「手上這個人不是真正拍板的人」這件事?</span>
+      </div></div>
+    </section>
+
+    <section class="section">
+      <div class="section-head"><span class="section-num">2</span><span class="section-title">獲客管道</span></div>
+      <div class="section-sub">Channels</div>
+
+      <div class="q must"><div class="q-top">
+        <span class="q-no">4</span>
+        <span class="q-text">B2B 的 lead 通常是透過哪些渠道來的?(我做 B2C 主力是付費+非付費媒體,所以很好奇 B2B 的來源組合長什麼樣)</span>
+        <span class="q-star">★</span>
+      </div></div>
+
+      <div class="q"><div class="q-top">
+        <span class="q-no">5</span>
+        <span class="q-text">你在 SHOPLINE 跨境做到入站名單(<span class="en">inbound leads</span>)+644% YoY——你是怎麼透過共同行銷聯盟(<span class="en">co-marketing alliance</span>)做到這個成長的?(像是跟 Meta、JD.com、Amazon 那些合作,實際是怎麼運作的?)</span>
+      </div></div>
+
+      <div class="q must"><div class="q-top">
+        <span class="q-no">6</span>
+        <span class="q-text">你在 Amazon 跟 SHOPLINE 都做了很多夥伴關係(<span class="en">partnership</span>)/ 共同行銷(<span class="en">co-marketing</span>)來帶 lead——這種透過夥伴帶來的 lead,品質好嗎?以及很實際的問題:這些夥伴關係你是怎麼找到、談成的?</span>
+        <span class="q-star">★</span>
+      </div></div>
+
+      <div class="q"><div class="q-top">
+        <span class="q-no">7</span>
+        <span class="q-text">B2B 到底有沒有「付費投放」這回事?如果有,通常投在哪、玩法跟我 B2C 投 Meta/Google 差在哪?</span>
+      </div></div>
+    </section>
+
+    <section class="section">
+      <div class="section-head"><span class="section-num">3</span><span class="section-title">率值與成效</span></div>
+      <div class="section-sub">Metrics &amp; Measurement</div>
+
+      <div class="q must"><div class="q-top">
+        <span class="q-no">8</span>
+        <span class="q-text">我 B2C 成效最終看轉換業績,而且回收快——投了當週/當月就知道成不成。但 B2B 的銷售管道(<span class="en">pipeline</span>)那麼長,你怎麼證明「這個月做的行銷」有效?中間用什麼領先指標?</span>
+        <span class="q-star">★</span>
+      </div></div>
+
+      <div class="q"><div class="q-top">
+        <span class="q-no">9</span>
+        <span class="q-text">你怎麼定義一個賣家 lead 算「夠格」(可以交給 BD / sales 跟進)?是看公司規模、品類、出口準備度,還是看行為?</span>
+      </div></div>
+
+      <div class="q"><div class="q-top">
+        <span class="q-no">10</span>
+        <span class="q-text">我最大的痛是「名單成本」跟「名單品質」常常打架:壓低成本品質就爛。你 B2B 一個 lead 成本可能很高,你怎麼跟老闆證明「貴的 lead 是值得的」?</span>
+      </div></div>
+    </section>
+
+    <div class="final">
+      <div class="final-label">Final Question</div>
+      <div class="final-text">11 — 如果我想從 B2C lead gen 轉戰 B2B lead gen,你覺得我需要補強哪些能力?</div>
+    </div>
+
+    <div class="footer">
+      <span>1-on-1 Prep Sheet</span>
+      <span>11 Questions · 3 Themes + Final</span>
+    </div>
+  </div>
+
+  <!-- ===================== PAGE 2: BRAND VS PERFORMANCE ===================== -->
+  <div class="page" data-page="brand" role="tabpanel">
+
+    <header class="masthead">
+      <div class="eyebrow">XChange Mentorship Program</div>
+      <h1>Brand Marketing<br><span class="vs">vs.</span> Performance Marketing</h1>
+      <div class="people">
+        <span class="mentor"><span class="role">Mentor</span><span class="name">Helen</span></span>
+        <span class="mentee"><span class="role">Mentee</span><span class="name">Anne</span></span>
+      </div>
+    </header>
+
+    <div class="legend"><span class="star">★</span> 標星為核心必問題</div>
+
+    <section class="section">
+      <div class="section-head"><span class="section-num">1</span><span class="section-title">角色定位與工作內容</span></div>
+      <div class="section-sub">Role &amp; Day-to-Day</div>
+
+      <div class="q must"><div class="q-top">
+        <span class="q-no">1</span>
+        <span class="q-text">Brand Marketing 實際的日常任務有哪些?跟我做 Performance 那種「盯帳戶、調受眾、看當日數據」的工作模式,最大的不同在哪?</span>
+        <span class="q-star">★</span>
+      </div></div>
+
+      <div class="q must"><div class="q-top">
+        <span class="q-no">2</span>
+        <span class="q-text">在一個品牌組織裡,Brand Marketing 扮演什麼樣的功能與戰略價值?它跟 Performance 是上下游、還是並行的兩條線?</span>
+        <span class="q-star">★</span>
+      </div></div>
+
+      <div class="q"><div class="q-top">
+        <span class="q-no">3</span>
+        <span class="q-text">你在 Cake 主導了品牌重塑(<span class="en">rebranding</span>),一個品牌重塑專案實際是怎麼啟動、怎麼進行的?</span>
+      </div></div>
+
+      <div class="q"><div class="q-top">
+        <span class="q-no">4</span>
+        <span class="q-text">你訂了品牌準則 / 品牌調性(<span class="en">Brand Guideline / Brand Voice</span>)。這種「規範」訂出來後,實際上怎麼落地、怎麼確保整個團隊(甚至跨市場)都照著走?在落地執行與使用時,有遇到什麼問題嗎?(像是團隊不買單、各市場想自己調整、執行起來跟想像有落差……)</span>
+      </div></div>
+    </section>
+
+    <section class="section">
+      <div class="section-head"><span class="section-num">2</span><span class="section-title">KPI 與成效衡量</span></div>
+      <div class="section-sub">Metrics &amp; ROI</div>
+
+      <div class="q must"><div class="q-top">
+        <span class="q-no">5</span>
+        <span class="q-text">Brand Marketing 的 KPI 通常有哪些?要怎麼量化「品牌」這種看起來很抽象的東西?</span>
+        <span class="q-star">★</span>
+      </div></div>
+
+      <div class="q must"><div class="q-top">
+        <span class="q-no">6</span>
+        <span class="q-text">Brand 的成效回收很慢、又難歸因。你怎麼跟老闆/上層證明「投在 brand 的錢是值得的」?有沒有估算 ROI 的方法?</span>
+        <span class="q-star">★</span>
+      </div></div>
+
+      <div class="q"><div class="q-top">
+        <span class="q-no">7</span>
+        <span class="q-text">我做 Performance 看 ROAS、CPA、轉換,當天就有數字。你做 brand 沒有這種即時回饋,你怎麼判斷「我這個月做得好不好」、靠什麼修正方向?</span>
+      </div></div>
+    </section>
+
+    <div class="final">
+      <div class="final-label">Final Question</div>
+      <div class="final-text">8 — 如果我是 performance 出身、想往 brand 思維擴展,你會建議我先補哪一塊能力?</div>
+    </div>
+
+    <div class="footer">
+      <span>1-on-1 Prep Sheet</span>
+      <span>8 Questions · 2 Themes + Final</span>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const tabs = document.querySelectorAll('.tab');
+  const pages = document.querySelectorAll('.page');
+  tabs.forEach(tab=>{
+    tab.addEventListener('click',()=>{
+      const target = tab.dataset.page;
+      tabs.forEach(t=>t.setAttribute('aria-selected', t===tab));
+      pages.forEach(p=>p.classList.toggle('active', p.dataset.page===target));
+      window.scrollTo({top:0,behavior:'smooth'});
+    });
+  });
+</script>
+</body>
+</html>
